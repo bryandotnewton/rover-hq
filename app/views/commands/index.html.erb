@@ -1,0 +1,8 @@
+<%= button_to 'Issue Commands', new_command_path, method: :get %>
+
+<h3> Previously issued commands </h3>
+<ul>
+  <% @commands.each do |command| %>
+    <li> <%- link_to command.id, command_path(command) %> </li>
+  <% end %>
+</ul>

@@ -1,0 +1,9 @@
+<%= form_with(model: @command) do |form| %>
+
+  <%= image_tag("cg-name.jpeg", size: 160) %>
+
+  <%= form.file_field :command_sheet %>
+
+  <%= form.submit %>
+
+<% end %>

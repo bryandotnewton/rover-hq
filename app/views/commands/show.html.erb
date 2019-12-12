@@ -1,0 +1,16 @@
+<h4>Results</h4>
+
+<h5>Grid</h5>
+<%= @command.grid.x %> x <%= @command.grid.y %> <br><br><br>
+
+<% @command.rovers.each_with_index do |rover, index| %>
+  <h6>Rover <%= index + 1 %></h6>
+  Commands: <%= rover.commands %><br>
+  Staring: <%= [rover.start_x, rover.start_y, rover.start_direction].join(', ') %><br>
+  Ending Coords: <%= [rover.end_x, rover.end_y, rover.end_direction].join(', ') %><br>
+
+  <% if rover.rover_errors.present? %>
+    <div class='red'>Errors: <%= rover.rover_errors %></div>
+  <% end %>
+  <br><br>
+<% end %>
