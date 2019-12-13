@@ -5,6 +5,7 @@ class Command < ApplicationRecord
   has_one :grid
   has_many :rovers
 
+  validates :command_sheets, presence: true
   # validate :validate_command_format
 
   private

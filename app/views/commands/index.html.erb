@@ -1,8 +1,8 @@
-<%= button_to 'Issue Commands', new_command_path, method: :get %>
-
-<h3> Previously issued commands </h3>
-<ul>
-  <% @commands.each do |command| %>
-    <li> <%- link_to command.id, command_path(command) %> </li>
+<div class='content'>
+  <%= form_with(model: @command) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= f.file_field :command_sheet %><br><br>
+    <%= f.submit 'Submit', class: 'btn button btn-primary' %>
   <% end %>
-</ul>
+</div>

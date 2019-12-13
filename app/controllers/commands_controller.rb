@@ -1,6 +1,6 @@
 class CommandsController < ApplicationController
   def index
-    @commands = Command.all
+    @command = Command.new
   end
 
   def show
@@ -12,29 +12,21 @@ class CommandsController < ApplicationController
   end
 
   def create
+    puts params
     puts 'create'
-    puts command_params
-    command = Command.create!(command_params)
-    redirect_to command_path(command)
+    command = Command.new(command_params)
+    if command.save
+      puts 'ok'
+      redirect_to command_path(command)
+    else
+      puts 'not ok'
+      render :index
+    end
+  rescue
+    render :index
   end
 
   private
-
-  # def parse_commands(command)
-  #   puts 'parse'
-  #   puts command.command_sheet
-  #   file_path = command.command_sheet
-  #   puts CSV.parse(file_path)
-
-  #   # puts command_sheet.download.split("\n").map(&:strip)
-  #   # grid = Grid.new *command_list.shift.split
-
-  #   # rover_commands = command_list.each_slice(2).to_a
-
-  #   # rover_commands.each do |commands|
-  #   #   process_rover(commands)
-  #   # end
-  # end
 
   def command_params
     params.require(:command).permit(:command_sheet)

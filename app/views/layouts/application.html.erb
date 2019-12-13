@@ -5,12 +5,14 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <a href="/" class="logo">Camp Gladiator</a>
+    <header>
+      <a href="/" class="logo"><%= image_tag("cg-name.jpeg", height: 120, width: 220) %></a>
+    </header>
     <%= yield %>
   </body>
 </html>

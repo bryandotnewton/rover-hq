@@ -1,0 +1,140 @@
+// Place all the styles related to the commands controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+@font-face{font-family:Gotham;src:url(../fonts/Gotham-Book.woff) format("woff");font-weight:400}
+
+@font-face{font-family:Gotham;src:url(../fonts/gotham-medium.woff) format("woff");font-weight:500}
+
+@font-face{font-family:Gotham;src:url(../fonts/GothamBold.woff) format("woff");font-weight:700}
+
+@font-face{font-family:United Italic Cond;src:url(../fonts/UnitedItalicCond-Heavy.otf) format("otf")}
+
+.red {
+  color: red;
+}
+
+.content {
+  padding-top: 50px;
+  padding-left: 40px;
+}
+
+body {
+  font-family: Gotham;
+}
+
+.logo {
+  margin:15px;
+  text-indent:-9999px;
+  border:none;
+}
+
+header {
+  position:relative;
+  z-index:5;
+  display:block;
+  grid-auto-flow:column;
+  -webkit-box-shadow:0 3px 0 0 rgba(51,49,50,.2);
+  box-shadow:0 3px 0 0 rgba(51,49,50,.2);
+}
+
+input.button {
+  display:inline-block;
+  margin-right:10px;
+  margin-bottom:10px;
+  padding:13px 40px;
+  color:#fff;
+  font-size:14px;
+  font-weight:400;
+  line-height:20px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  border:2px solid #c8102e;
+  border-radius:50px;
+  background:#c8102e
+}
+
+.button {
+  display:inline-block;
+  margin-right:10px;
+  margin-bottom:10px;
+  padding:13px 40px;
+  color:#fff;
+  font-size:14px;
+  font-weight:400;
+  line-height:20px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  border:2px solid #c8102e;
+  border-radius:50px;
+  background:#c8102e
+}
+.button .icon {
+  width:15px;
+  height:15px;
+  margin-top:-4px;
+  vertical-align:middle;
+}
+
+.button .icon.stroke {
+  stroke:#fff;
+  stroke-width:2px;
+}
+
+.button .icon.fill {
+  fill:#fff;
+}
+
+.button:focus,.button:hover {
+  color:#fff;
+  border-color:#868686;
+  background:#868686;
+}
+
+.button:focus .icon.stroke,.button:hover .icon.stroke {
+  stroke:#fff;
+}
+
+.button:focus .icon.fill,.button:hover .icon.fill {
+  fill:#fff;
+}
+.button.alt {
+  color:#c8102e;
+  background:#fff;
+}
+
+.button.alt .icon.stroke {
+  stroke:#c8102e;
+}
+
+.button.alt .icon.fill {
+  fill:#c8102e;
+}
+.button.alt:focus,.button.alt:hover {
+  color:#fff;
+  border-color:#868686;
+  background:#868686}.button.alt:focus .icon.stroke,.button.alt:hover .icon.stroke{stroke:#fff}.button.alt:focus .icon.fill,.button.alt:hover .icon.fill{fill:#fff}.alt-content .button{border-bottom:#c8102e}.alt-content .button.alt:focus,.alt-content .button.alt:hover,.alt-content .button:focus,.alt-content .button:hover{border-bottom-color:#868686}.alt-buttons .button{color:#fff;
+  border-color:#333132;
+  background:#333132}.alt-buttons .button .icon.stroke{stroke:#fff}.alt-buttons .button .icon.fill{fill:#fff}.alt-buttons .button:focus,.alt-buttons .button:hover{color:#c8102e;
+  border-color:#fff;
+  background:#fff;
+}
+.alt-buttons .button:focus .icon.stroke,.alt-buttons .button:hover .icon.stroke {
+  stroke:#c8102e;
+}
+.alt-buttons .button:focus .icon.fill,.alt-buttons .button:hover .icon.fill {
+  fill:#c8102e;
+}
+.alt-buttons .button.alt {
+  color:#fff;
+  border-color:#fff;
+  background:#c8102e;
+}
+.alt-buttons .button.alt .icon.stroke {
+  stroke:#fff;
+}
+
+.alt-buttons .button.alt .icon.fill{
+  fill:#fff;
+}
+.alt-buttons .button.alt:focus,.alt-buttons .button.alt:hover{color:#c8102e;border-color:#fff;background:#fff}.alt-buttons .button.alt:focus .icon.stroke,.alt-buttons .button.alt:hover .icon.stroke{stroke:#c8102e}.alt-buttons .button.alt:focus .icon.fill,.alt-buttons .button.alt:hover .icon.fill{fill:#c8102e}@media screen and (max-width:1024px){.button{font-size:12px;line-height:18px}}.form-button{display:inline-block;margin-left:10px;padding:12px;border:2px solid #333132;border-radius:50%;cursor:pointer;background-color:#fff}
