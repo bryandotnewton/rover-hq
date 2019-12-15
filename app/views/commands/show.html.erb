@@ -1,21 +1,49 @@
-<h4>Results</h4>
+<div class="text-center"><h4>Results</h4></div>
+<br>
 
-<h5>Grid</h5>
-<%= @command.grid.x %> x <%= @command.grid.y %> <br><br><br>
+<div id="dom-actor" style="position: absolute; height: 100px; width: 100px; left: 120px; background: #00f; z-index: 999;"></div>
 
-<% @command.rovers.each_with_index do |rover, index| %>
-  <h6>Rover <%= index + 1 %></h6>
-  Commands: <%= rover.commands %><br>
-  Staring: <%= [rover.start_x, rover.start_y, rover.start_direction].join(', ') %><br>
-  Ending Coords: <%= [rover.end_x, rover.end_y, rover.end_direction].join(', ') %><br>
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+      <h5>Grid</h5>
+      <%= @command.grid.x %> x <%= @command.grid.y %> <br><br>
+      <% @command.grid.draw_grid.each do |grid_y| %>
+        <div class="row">
+          <% grid_y.each do |grid_x| %>
+            <div class="col-sm">0</div>
+          <% end %>
+        </div>
+      <% end %>
 
-  <% if rover.rover_errors.present? %>
-    <div class='red'>Errors: <%= rover.rover_errors %></div>
-  <% end %>
-  <br><br>
-<% end %>
+      <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
 
+    <div class="col-md">
+      <% @command.rovers.each_with_index do |rover, index| %>
+        <h6>Rover <%= index + 1 %></h6>
+        Commands: <%= rover.commands %><br>
+        Staring: <%= [rover.start_x, rover.start_y, rover.start_direction].join(', ') %><br>
+        Ending Coords: <%= [rover.end_x, rover.end_y, rover.end_direction].join(', ') %><br>
+
+        <% if rover.rover_errors.present? %>
+          <div class='red'>Errors: <%= rover.rover_errors %></div>
+        <% end %>
+        <br><br>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div class='row'>
-  <%= link_to 'Issue New Commands', new_command_path, method: :get, class: 'btn button' %>
+  <%= link_to 'Issue New Commands', commands_path, method: :get, class: 'btn button' %>
 </div>
+
+<script type="text/javascript" language="javascript">
+  // document.addEventListener("turbolinks:load", () => {
+  //   Packs.application.go(5, 5);
+  // })
+  // $(document).ready(function(){
+    window.renderGrid(5, 5, '<%= @rovers.to_json.html_safe %>');
+  // });
+</script>

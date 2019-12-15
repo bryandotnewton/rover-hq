@@ -1,3 +1,4 @@
-
- @import 'bootstrap';
- @import 'commands.scss';
+@import "bootstrap/scss/bootstrap";
+@import 'commands.scss';
+@import 'reset_grid.scss';
+@import 'grid.scss';

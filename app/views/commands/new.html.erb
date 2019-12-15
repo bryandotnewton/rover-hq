@@ -1,4 +1,6 @@
-<%= form_with(model: @command) do |form| %>
-  <%= form.file_field :command_sheet %>
-  <%= form.submit %>
-<% end %>
+<div class='content'>
+  <%= simple_form_for @command do |f| %>
+    <%= f.input :command_sheet, as: :file, label: false %><br><br>
+    <%= f.submit 'Submit', class: 'btn button btn-primary' %>
+  <% end %>
+</div>

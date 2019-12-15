@@ -8,8 +8,8 @@ class RoverTest < ActiveSupport::TestCase
   it 'moves rover' do
     test_command = 'M'
     mock = MiniTest::Mock.new
-    mock.expect(:call, :move_rover)
-    rover.stub(:move_rover, mock) do
+    mock.expect(:call, :process_move)
+    rover.stub(:process_move, mock) do
       rover.send(:process_command, test_command)
     end
     mock.verify
@@ -28,7 +28,7 @@ class RoverTest < ActiveSupport::TestCase
   it 'turns rover right' do
     test_command = 'R'
     mock = MiniTest::Mock.new
-    mock.expect(:call, :move_rover)
+    mock.expect(:call, :process_move)
     rover.stub(:turn_right, mock) do
       rover.send(:process_command, test_command)
     end
@@ -38,7 +38,7 @@ class RoverTest < ActiveSupport::TestCase
   it 'turns rover right' do
     test_command = 'L'
     mock = MiniTest::Mock.new
-    mock.expect(:call, :move_rover)
+    mock.expect(:call, :process_move)
     rover.stub(:turn_left, mock) do
       rover.send(:process_command, test_command)
     end

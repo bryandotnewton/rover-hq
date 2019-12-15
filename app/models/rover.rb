@@ -1,28 +1,33 @@
 class Rover < ApplicationRecord
+  attr_accessor :current_x, :current_y, :current_direction
   DIRECTIONS = %w(N E S W)
   belongs_to :command
 
-  def process_commands
+  def process_rover
+    process_commands
+    update(
+      end_x: @current_x,
+      end_y: @current_y,
+      end_direction: @current_direction
+    )
+  end
+
+  def validate_rover
     command_set = commands.scan /\w/
     @current_x = start_x
     @current_y = start_y
     @current_direction = start_direction
-    @errors = []
-    command_set.each do |com|
-      process_command(com)
+    command_set.each do |cmd|
+      validate_command(cmd)
     end
-    puts @current_x
-    puts @current_y
-    puts @current_direction
-    update(
+    assign_attributes(
       end_x: @current_x,
       end_y: @current_y,
-      end_direction: @current_direction,
-      rover_errors: @errors.uniq.join(' || ')
+      end_direction: @current_direction
     )
   end
 
-  def current_position
+  def position
     x = end_x.present? ? end_x : start_x
     y = end_y.present? ? end_y : start_y
     [x, y]
@@ -30,10 +35,33 @@ class Rover < ApplicationRecord
 
   private
 
-  def process_command(com)
-    case com.downcase
+  def current_position
+    [@current_x, @current_y]
+  end
+
+  def process_commands
+    command_set = commands.scan /\w/
+    @current_x = start_x
+    @current_y = start_y
+    @current_direction = start_direction
+    command_set.each do |cmd|
+      process_command(cmd)
+      break if errors.any?
+    end
+  end
+
+  def validate_command(cmd)
+    process_command(cmd)
+    if collision?
+      errors.add :base, "collided with another rover at #{current_position}"
+    end
+    errors.add :base, "fell off the plateau!" if out_of_bounds?
+  end
+
+  def process_command(cmd)
+    case cmd.downcase
     when 'm'
-      move_rover
+      process_move
     when 'l'
       turn_left
     when 'r'
@@ -41,7 +69,7 @@ class Rover < ApplicationRecord
     end
   end
 
-  def move_rover
+  def process_move
     case @current_direction
     when 'N'
       @current_y += 1
@@ -52,9 +80,6 @@ class Rover < ApplicationRecord
     when 'W'
       @current_x -= 1
     end
-
-    @errors << "Rover collided with another rover at #{current_position}" if collision?
-    @errors << 'Rover fell off the plateau!' if out_of_bounds?
   end
 
   def turn_right
@@ -72,8 +97,15 @@ class Rover < ApplicationRecord
   end
 
   def collision?
-    command.rovers.where('id <> ?', id).map(&:current_position).any? do |coords|
-      coords == current_position
+    other_rovers.each do |rov|
+      return true if rov.position == [@current_x, @current_y]
+    end
+    false
+  end
+
+  def other_rovers
+    command.rovers.reject do |rov|
+      rov == self
     end
   end
 end

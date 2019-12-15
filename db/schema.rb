@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 2019_12_11_144120) do
   end
 
   create_table "commands", force: :cascade do |t|
+    t.string "size"
+    t.string "command_list"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -48,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_12_11_144120) do
 
   create_table "rovers", force: :cascade do |t|
     t.integer "command_id", null: false
+    t.string "name", null: false
     t.integer "start_x", null: false
     t.integer "start_y", null: false
     t.string "start_direction", null: false

@@ -3985,6 +3985,11 @@ lodash.memoize@^4.1.2:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
+lodash.sortedindexby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.sortedindexby/-/lodash.sortedindexby-4.6.0.tgz#46f198fbdfbcd09c6fd4c177d37cda3cc652d9f9"
+  integrity sha1-RvGY+9+80Jxv1MF303zaPMZS2fk=
+
 lodash.template@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.5.0.tgz#f976195cf3f347d0d5f52483569fe8031ccce8ab"
@@ -6016,6 +6021,14 @@ regjsparser@^0.6.0:
   dependencies:
     jsesc "~0.5.0"
 
+rekapi@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/rekapi/-/rekapi-2.2.1.tgz#759a7526783a72af297a3e753f8c18d7df7dccb5"
+  integrity sha512-PzLtEL3Mffohf6DbMN952h/MPF0YBAsuDc6LcbvJNmkLCu5C8RgAj3NDUni2lHBzFIwLFEEIcpslkitScBW5Fg==
+  dependencies:
+    lodash.sortedindexby "^4.6.0"
+    shifty "2.3.1"
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -6366,6 +6379,13 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
   integrity sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
+
+shifty@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/shifty/-/shifty-2.3.1.tgz#ca92001c04718911f3b48d179aa858cc9cc86009"
+  integrity sha512-WBN+aCbg3prUBpUacdrfRuG5o5fgzcEi0wlXoUM3usrqrU0znL/RcWyhCXD86ieSZi0ASJYqjgzeEXvtz9vRYA==
+  dependencies:
+    object-assign "^4.1.1"
 
 signal-exit@^3.0.0:
   version "3.0.2"

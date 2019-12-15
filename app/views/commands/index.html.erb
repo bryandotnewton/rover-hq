@@ -1,8 +1,5 @@
-<div class='content'>
-  <%= form_with(model: @command) do |f| %>
-    <%= f.error_notification %>
-    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-    <%= f.file_field :command_sheet %><br><br>
-    <%= f.submit 'Submit', class: 'btn button btn-primary' %>
-  <% end %>
-</div>
+<%= simple_form_for @command do |f| %>
+  <%= f.input :command_sheet, as: :file, label: false, error: false %>
+  <%= f.error :base, class: 'red' %><br><br>
+  <%= f.submit 'Submit', class: 'btn button btn-primary' %>
+<% end %>
