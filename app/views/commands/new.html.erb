@@ -1,6 +1,7 @@
 <%= simple_form_for @command do |f| %>
   <%= f.error :base, class: 'red' %><br><br>
   <%= render 'instructions' %>
+  Select your command list here
   <div class="center">
     <%= f.input :command_sheet, as: :file, label: false, error: false, html: { id: 'command_sheet' } %>
     <%= f.error :base, class: 'red' %><br><br>
