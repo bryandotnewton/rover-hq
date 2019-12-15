@@ -5,9 +5,19 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  name: rover-0
   id: 1
   command_id: 1
-  start_x: 2
+  start_x: 1
   start_y: 2
   start_direction: 'N'
-  commands: 'MLMRMLM'
+  commands: 'LMLMLMLMM'
+
+two:
+  name: rover-1
+  id: 2
+  command_id: 1
+  start_x: 3
+  start_y: 3
+  start_direction: 'E'
+  commands: 'MMRMMRMRRM'

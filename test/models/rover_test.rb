@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class RoverTest < ActiveSupport::TestCase
   let(:command) { commands :one }
   let(:grid) { grids :one }
   let(:rover) { rovers :one }
-  # command.command_sheet.attach(io: File.open(Rails.root.join('test', 'fixtures', 'files', 'testfile.txt')), filename: 'testfile.txt', content_type: "text/plain")
   it 'moves rover' do
     test_command = 'M'
     mock = MiniTest::Mock.new
@@ -19,10 +20,8 @@ class RoverTest < ActiveSupport::TestCase
     rover.start_y = 0
     rover.start_direction = 'S'
     rover.commands = 'M'
-    error = assert_raises(StandardError) do
-      rover.process_commands
-    end
-    assert_equal 'Rover fell off the plateau!', error.message
+    rover.validate_rover
+    assert_equal 'would fall off the plateau!', rover.errors.full_messages.first
   end
 
   it 'turns rover right' do
@@ -45,22 +44,23 @@ class RoverTest < ActiveSupport::TestCase
     mock.verify
   end
 
-  it 'processes commands' do
-    rover.commands = 'MLMRM'
-    expected = '1 4 N'
-    rover.process_commands
+  it 'sets end position' do
+    expected = '1 3 N'
+    rover.validate_rover
     actual = "#{rover.end_x} #{rover.end_y} #{rover.end_direction}"
     assert_equal expected, actual
   end
 
   it 'collides' do
     rover2 = command.rovers.create(
-      start_x: 2,
+      start_x: 1,
       start_y: 2,
       start_direction: 'N',
-      commands: 'M'
+      commands: 'M',
+      name: 'rover-5'
     )
-    assert rover.send(:collision?)
+    rover2.send(:set_current_position)
+    assert rover2.send(:collision?)
   end
 
   it 'does not collide' do
@@ -68,8 +68,9 @@ class RoverTest < ActiveSupport::TestCase
       start_x: 2,
       start_y: 3,
       start_direction: 'N',
-      commands: 'M'
+      commands: 'M',
+      name: 'rover-5'
     )
-    refute rover.send(:collision?)
+    refute rover2.send(:collision?)
   end
 end

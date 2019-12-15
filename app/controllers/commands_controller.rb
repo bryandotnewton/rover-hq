@@ -1,17 +1,15 @@
-class CommandsController < ApplicationController
-  def index
-    @command ||= Command.new
-  end
+# frozen_string_literal: true
 
+class CommandsController < ApplicationController
   def show
     @command = Command.find(params[:id])
     @rovers = {}
     @command.rovers.each_with_index do |rover, index|
       @rovers[index.to_s] = {
-        "start_x" => rover.start_x,
-        "start_y" => rover.start_y,
-        "start_direction" => rover.start_direction,
-        "commands" => rover.commands
+        'start_x' => rover.start_x,
+        'start_y' => rover.start_y,
+        'start_direction' => rover.start_direction,
+        'commands' => rover.commands
       }
     end
   end
@@ -27,7 +25,7 @@ class CommandsController < ApplicationController
     else
       render_error(@command.errors.full_messages)
     end
-  rescue => e
+  rescue StandardError => e
     render_error([e.message])
   end
 
@@ -36,9 +34,11 @@ class CommandsController < ApplicationController
   def render_error(errors)
     @command = Command.new
     errors.each do |err|
-      @command.errors.add :base, err
+      flash[:error] = err
+      # @command.errors.add :base, err
     end
-    render :index
+    redirect_to root_path
+    # render :new
   end
 
   def command_params

@@ -1,0 +1,33 @@
+<p>Welcome to Rover HQ, Commander.</p>
+  <p>Our Rovers are ready to explore Gladiator Plateau and we need your navigational skills to ensure success.</p>
+  <p>We must upload and transmit a command list to the Rover Dispatcher Drone in orbit around Mars</p>
+  <p>Here are the operational parameters of your mission:</p>
+  <ul>
+    <li>The command list must be a text file</li>
+    <li>The command list must be in the following format:
+      <ul>
+        <li>The first line of the file specifies the Northeastern point of Gladiator Plateau in the format <b>X Y</b>.  Gladiator Plateau is rectangular and we have designated the southwestern point as coordinates 0, 0</li>
+        <li>Each pair of lines thereafter will issue commands to one rover.</li>
+        <li>The first line of the rover command gives the starting coordinates(X Y) and direction(D) in the format <b>X Y D</b>. Valid directions are <b>N, S, E, W</b></li>
+        <li>The second line of the rover command issues turn and move orders</li>
+        <li>Valid Move Orders:</li>
+        <ul>
+          <li><b>L</b>: Turn left 90 degrees</li>
+          <li><b>R</b>: Turn right 90 degrees</li>
+          <li><b>M</b>: Move forward one coordinate in the direction currently facing</li>
+        </ul>
+      </ul>
+      <br>
+      <li>The following is an example:</li>
+        <ul class="list-unstyled">
+          <li><b>5 5</b> - States that Gladiator Plateau is a 6x6 rectangle (SW point at 0,0 and NE point at 5,5)</li>
+          <li><b>1 2 N</b> - Drops the first rover at 1, 2 facing North</li>
+          <li><b>LMLMLMLMM</b> - Issues commands to rover 1</li>
+          <li><b>3 3 E</b> - Drops the second rover at 3, 3 facing East</li>
+          <li><b>MMRMMRMRRM</b> - Issues commands to rover 2</li>
+        </ul>
+    </li>
+    <br>
+    <li><b>All rovers will be dropped at their starting positions before any commands are transmitted. The rovers will then complete their issued
+      commands in sequence with each rover completing their movement before the next begins</b></li>
+  </ul>

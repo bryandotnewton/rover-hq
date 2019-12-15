@@ -1,110 +1,136 @@
-class Command < ApplicationRecord
-  # after_create_commit :process_commands
+# frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
+class Command < ApplicationRecord
   has_one_attached :command_sheet
   has_one :grid
   has_many :rovers
 
-  validate :validate_command
-  # validates_associated :rovers, message: ->(_class_obj, obj){ obj[:value].errors.full_messages.join(',') }
-  # validates_associated_bubbling :rovers
-  validates_presence_of :rovers
+  validate :validate_commands
 
   def initialize(args)
     super
-    if command_sheet.present?
-      build_commands
-    end
+    build_commands if command_sheet.present?
   end
 
   private
 
   def build_commands
-    puts 'build commands'
-    self.size, self.command_list = parse_command_list(attachment_changes['command_sheet'].attachable.read)
-    puts size
-    puts command_list
+    self.size, self.command_list = parse_command_list(
+      attachment_changes['command_sheet'].attachable.read
+    )
     size_split = size.split
     build_grid(x: size_split[0], y: size_split[1])
+    build_rovers
+  end
+
+  def build_rovers
     command_list.split("\n").each_slice(2).to_a.each_with_index do |commands, index|
-      split_coords = commands[0].split
-      puts 'BUILD'
+      x, y, direction = commands[0].split
       rovers.build(
         name: "rover-#{index}",
-        start_x: split_coords[0].to_i,
-        start_y: split_coords[1].to_i,
-        start_direction: split_coords[2],
+        start_x: x.to_i,
+        start_y: y.to_i,
+        start_direction: direction,
         commands: commands[1]
       )
     end
   end
 
-  def process_commands
-    # size, command_list = parse_command_list(command_sheet.download)
-    size_split = size.split
-    build_grid(x: size_split[0], y: size_split[1])
-    command_list.each_slice(2).to_a.each do |commands|
-      split_coords = commands[0].split
-      rovers << rovers.build(
-        start_x: split_coords[0].to_i,
-        start_y: split_coords[1].to_i,
-        start_direction: split_coords[2],
-        commands: commands[1]
-      )
+  def validate_commands
+    %w[validate_command_sheet_present validate_command_file validate_command_init validate_rovers].each do |mthd|
+      send(mthd)
+      break if errors.any?
     end
-    # rovers.each(&:process_rover)
   end
 
-  def validate_command
-    puts 'validate command'
-    errors.add :base, 'is empty' unless command_sheet.present?
-    if command_sheet.attached?
-      if command_sheet.blob.byte_size > 100000
-        command_sheet.purge if command_sheet.blob.persisted?
-        errors.add :base, 'is too big'
-      elsif !command_sheet.blob.content_type.starts_with?('text/')
-        puts command_sheet.blob.content_type
-        command_sheet.purge if command_sheet.blob.persisted?
-        errors.add :base, 'is in the wrong format'
-      end
-    end
+  def validate_command_sheet_present
+    errors.add :base, 'Command Sheet is empty' unless command_sheet.present?
+  end
 
-    errors.add(:base, 'size is in an invalid format, must be \'X Y\'') unless size_valid?(size)
-    command_list.split("\n").each_slice(2).to_a.each_with_index do |commands|
-      errors.add(:base, 'rover starting position is invalid, must be \'X Y <N E S W>\'') unless rover_start_valid?(commands[0])
-      errors.add(:base, 'rover command is invalid, can only contain M L R') unless rover_command_valid?(commands[1])
-    end
+  def validate_command_file
+    return unless command_sheet.attached? || errors.any?
 
-    validate_rovers
+    validate_file_size
+    validate_file_type
+  end
+
+  def validate_file_size
+    if command_sheet.blob.byte_size > 100_000
+      command_sheet.purge if command_sheet.blob.persisted?
+      errors.add :base, 'is too big'
+    end
+  end
+
+  def validate_file_type
+    unless command_sheet.blob.content_type.starts_with?('text/')
+      command_sheet.purge if command_sheet.blob.persisted?
+      errors.add :base, 'Command Sheet must be a text file'
+    end
+  end
+
+  def validate_command_init
+    validate_command_sheet_size
+    validate_size
+    validate_command_format
+  end
+
+  def validate_command_sheet_size
+    if command_list.split("\n").count > 15
+      errors.add(
+        :base,
+        'Command Sheet specifies too many rovers, we only have 15!'
+      )
+    end
+  end
+
+  def validate_command_format
+    command_list.split("\n").each_slice(2).to_a.each do |commands|
+      errors.add(
+        :base,
+        'rover starting position is invalid, must be \'X Y <N E S W>\''
+      ) unless rover_start_valid?(commands[0])
+
+      errors.add(
+        :base,
+        'rover command is invalid, can only contain M L R'
+      ) unless rover_command_valid?(commands[1])
+    end
   end
 
   def validate_rovers
-    puts 'validate rovers'
     rovers.each do |rover|
-      puts rover.inspect
       rover.validate_rover
-      puts 'val'
-      puts rover.errors.count
       rover.errors.full_messages.each do |msg|
-        puts msg
-        self.errors.add(:rover, msg)
-        puts errors.full_messages
+        errors.add(:rover, msg)
       end
+    end
+  end
+
+  def validate_size
+    unless size_valid?(size)
+      errors.add(
+        :base,
+        'size is in an invalid format, must be \'X Y\''
+      )
     end
   end
 
   def size_valid?(size)
     return false unless size.is_a? String
+
     /^\d+ \d+$/.match(size).present?
   end
 
   def rover_start_valid?(coords)
     return false unless coords.is_a? String
+
     /^\d+ \d+ [NESW]$/.match(coords).present?
   end
 
   def rover_command_valid?(cmd)
     return false unless cmd.is_a? String
+
     /^[MLR]+$/.match(cmd).present?
   end
 
@@ -114,4 +140,4 @@ class Command < ApplicationRecord
     [size, command_list.join("\n")]
   end
 end
-
+# rubocop:enable Metrics/ClassLength

@@ -12,11 +12,15 @@
   </head>
 
   <body>
-    <%= javascript_pack_tag 'rovers', 'data-turbolinks-track': 'reload' %>
     <header>
       <a href="/" class="logo"><%= image_tag("cg-name.jpeg", height: 120, width: 220) %></a>
     </header>
     <div class="content">
+      <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+            <%= value %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
   </body>

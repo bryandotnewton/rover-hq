@@ -1,22 +1,13 @@
+# frozen_string_literal: true
+
 class Rover < ApplicationRecord
   attr_accessor :current_x, :current_y, :current_direction
-  DIRECTIONS = %w(N E S W)
+  DIRECTIONS = %w[N E S W].freeze
   belongs_to :command
 
-  def process_rover
-    process_commands
-    update(
-      end_x: @current_x,
-      end_y: @current_y,
-      end_direction: @current_direction
-    )
-  end
-
   def validate_rover
-    command_set = commands.scan /\w/
-    @current_x = start_x
-    @current_y = start_y
-    @current_direction = start_direction
+    command_set = commands.scan(/\w/)
+    set_current_position
     command_set.each do |cmd|
       validate_command(cmd)
     end
@@ -35,27 +26,25 @@ class Rover < ApplicationRecord
 
   private
 
-  def current_position
-    [@current_x, @current_y]
-  end
-
-  def process_commands
-    command_set = commands.scan /\w/
+  def set_current_position
     @current_x = start_x
     @current_y = start_y
     @current_direction = start_direction
-    command_set.each do |cmd|
-      process_command(cmd)
-      break if errors.any?
-    end
+  end
+
+  def current_position
+    [@current_x, @current_y]
   end
 
   def validate_command(cmd)
     process_command(cmd)
     if collision?
-      errors.add :base, "collided with another rover at #{current_position}"
+      errors.add(
+        :base,
+        "would collide with another rover at #{current_position}"
+      )
     end
-    errors.add :base, "fell off the plateau!" if out_of_bounds?
+    errors.add :base, 'would fall off the plateau!' if out_of_bounds?
   end
 
   def process_command(cmd)
@@ -84,21 +73,32 @@ class Rover < ApplicationRecord
 
   def turn_right
     index = DIRECTIONS.index(@current_direction) + 1
-    @current_direction = index > DIRECTIONS.count - 1 ? DIRECTIONS[0] : DIRECTIONS[index]
+    @current_direction = if index > DIRECTIONS.count - 1
+                           DIRECTIONS[0]
+                         else
+                           DIRECTIONS[index]
+                         end
   end
 
   def turn_left
     index = DIRECTIONS.index(@current_direction) - 1
-    @current_direction = index < 0 ? DIRECTIONS[DIRECTIONS.length - 1] : DIRECTIONS[index]
+    @current_direction = if index.negative?
+                           DIRECTIONS[DIRECTIONS.length - 1]
+                         else
+                           DIRECTIONS[index]
+                         end
   end
 
   def out_of_bounds?
-    @current_x > command.grid.x || @current_x < 0 || @current_y > command.grid.y || @current_y < 0
+    @current_x > command.grid.x ||
+      @current_x.negative? ||
+      @current_y > command.grid.y ||
+      @current_y.negative?
   end
 
   def collision?
     other_rovers.each do |rov|
-      return true if rov.position == [@current_x, @current_y]
+      return true if rov.position == current_position
     end
     false
   end

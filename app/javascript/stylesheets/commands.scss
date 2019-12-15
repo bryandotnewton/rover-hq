@@ -10,6 +10,14 @@
 
 @font-face{font-family:United Italic Cond;src:url(../fonts/UnitedItalicCond-Heavy.otf) format("otf")}
 
+.center {
+  text-align: center;
+}
+
+#command_sheet {
+  text-align: center !important;
+}
+
 .red {
   color: red;
 }
