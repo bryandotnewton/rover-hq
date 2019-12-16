@@ -1,24 +1,30 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Welcome to Rover HQ
 
-Things you may want to cover:
+## Demo
 
-* Ruby version
+* If you don't feel like going through any of this setup business and just want to see the app in action, just go to https://rover-hq.herokuapp.com/ and start exploring!
 
-* System dependencies
+## Versions
 
-* Configuration
+* This app is built on Rails 6 and Ruby 2.6.3.
 
-* Database creation
+## Setup
 
-* Database initialization
+* Clone the repo https://github.com/bryandotnewton/rover-hq.git
+* Install Postgresql if not already installed
+  * The easiest way on a Mac is via homebrew with `brew install postgresql`
+  * If homebrew is not yet installed, it can be done so by following the direction here: https://docs.brew.sh/Installation
+* Start the database service with `brew services start postgresql`
+* Create the database with `rake db:create`
+* Migrate the database with `rake db:migrate`
 
-* How to run the test suite
+## up
 
-* Services (job queues, cache servers, search engines, etc.)
+* The best way to start the app is to install the Foreman gem with `gem install foreman` and run `foreman start -f Procfile.dev` from the app root directory
+* Alternately, you can simply run `rails s` in the app root directory
 
-* Deployment instructions
+## Tests
 
-* ...
+* The test suite is written with minitest and can be run with `rake test` or `rails test`
