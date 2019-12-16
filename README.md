@@ -21,11 +21,11 @@ Welcome to Rover HQ
 * Create the database with `rake db:create`
 * Migrate the database with `rake db:migrate`
 
-## up
+## Start up
 
 * The best way to start the app is to install the Foreman gem with `gem install foreman` and run `foreman start -f Procfile.dev` from the app root directory
 * Alternately, you can simply run `rails s` in the app root directory
 
 ## Tests
 
-* The test suite is written with minitest and can be run with `rake test` or `rails test`
+* The test suite is written with Minitest and can be run with `rake test` or `rails test`
