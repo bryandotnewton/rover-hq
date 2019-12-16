@@ -29,3 +29,11 @@ Welcome to Rover HQ
 ## Tests
 
 * The test suite is written with Minitest and can be run with `rake test` or `rails test`
+
+## Input files
+
+* There are 4 test input files in the /public directory:
+  * default-command-sheet.txt - command sheet specified in the project documentation
+  * collision-command-sheet.txt - command sheet which causes a rover collision
+  * out-of-bounds-command-sheet.txt - command sheet which causes a rover to fall off the plateau
+  * too-many-rovers-command-sheet.txt - command sheet which specifies more rovers than we have available
