@@ -15,7 +15,8 @@ Welcome to Rover HQ
 * Clone the repo https://github.com/bryandotnewton/rover-hq.git
 * Install Postgresql if not already installed
   * The easiest way on a Mac is via homebrew with `brew install postgresql`
-  * If homebrew is not yet installed, it can be done so by following the direction here: https://docs.brew.sh/Installation
+  * If homebrew is not yet installed, it can be done so by following the directions here: https://docs.brew.sh/Installation
+  * If a different OS is being used, find installation instructions here: http://postgresguide.com/setup/install.html
 * Start the database service with `brew services start postgresql`
 * Create the database with `rake db:create`
 * Migrate the database with `rake db:migrate`
