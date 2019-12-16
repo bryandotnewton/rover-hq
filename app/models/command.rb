@@ -70,16 +70,16 @@ class Command < ApplicationRecord
   end
 
   def validate_command_init
-    validate_command_sheet_size
+    validate_command_list_size
     validate_size
     validate_command_format
   end
 
-  def validate_command_sheet_size
-    if command_list.split("\n").count > 15
+  def validate_command_list_size
+    if command_list.split("\n").each_slice(2).to_a.count > 10
       errors.add(
         :base,
-        'Command Sheet specifies too many rovers, we only have 15!'
+        'Command Sheet specifies too many rovers, we only have 10!'
       )
     end
   end

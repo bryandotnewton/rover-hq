@@ -5,6 +5,8 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'minitest/spec'
 require 'minitest/mock'
+require 'minitest/unit'
+require 'mocha/minitest'
 
 module ActiveSupport
   class TestCase

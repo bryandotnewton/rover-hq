@@ -3,15 +3,6 @@
 class CommandsController < ApplicationController
   def show
     @command = Command.find(params[:id])
-    @rovers = {}
-    @command.rovers.each_with_index do |rover, index|
-      @rovers[index.to_s] = {
-        'start_x' => rover.start_x,
-        'start_y' => rover.start_y,
-        'start_direction' => rover.start_direction,
-        'commands' => rover.commands
-      }
-    end
   end
 
   def new
@@ -35,10 +26,8 @@ class CommandsController < ApplicationController
     @command = Command.new
     errors.each do |err|
       flash[:error] = err
-      # @command.errors.add :base, err
     end
     redirect_to root_path
-    # render :new
   end
 
   def command_params
