@@ -10,7 +10,7 @@ gem 'rails', '~> 6.0.1'
 gem 'rubocop', require: false
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 gem 'simple_form'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
